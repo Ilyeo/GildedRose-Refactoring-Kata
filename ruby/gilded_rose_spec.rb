@@ -18,4 +18,12 @@ describe GildedRose do
     end
   end
 
+  describe "item quality never is negative" do
+    it "quality still being zero" do
+      items = [Item.new("item name", 0, 0)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 0
+    end
+  end
+
 end
