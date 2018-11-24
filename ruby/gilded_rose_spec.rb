@@ -10,4 +10,12 @@ describe GildedRose do
     end
   end
 
+  describe "item sell in has passed" do
+    it "quality degrees twice as fast" do
+      items = [Item.new("item name", 0, 2)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 0
+    end
+  end
+
 end
