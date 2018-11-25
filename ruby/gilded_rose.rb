@@ -10,47 +10,44 @@ class ItemDecorator < SimpleDelegator
   end
 
   def update_quality
+    self.quality += quality_adjustment
+  end
+
+  def quality_adjustment
     if name == 'Aged Brie'
-      increase_quality
+      adjustment = 1
       if sell_in < 0
-        increase_quality
+        adjustment = 2
       end
     elsif name == 'Backstage passes to a TAFKAL80ETC concert'
-      increase_quality
-      if sell_in < 11
-        increase_quality
+      adjustment = 1
+      if sell_in < 10
+        adjustment = 2
       end
-      if sell_in < 6
-        increase_quality
+      if sell_in < 5
+        adjustment = 3
       end
       if sell_in < 0
-        self.quality -= quality
+        adjustment = -quality
       end
     elsif name == 'Conjured Mana Cake'
-      decrease_quality
-      decrease_quality
+      adjustment = -2
       if sell_in < 0
-        decrease_quality
-        decrease_quality
+        adjustment = -4
       end
     else
-      decrease_quality
+      adjustment = -1
       if sell_in < 0
-        decrease_quality
+        adjustment = -2
       end
     end
+    adjustment
   end
 
-  def increase_quality
-    if quality < 50
-      self.quality += 1
-    end
-  end
-
-  def decrease_quality
-    if quality > 0
-      self.quality -= 1
-    end
+  def quality=(new_quality)
+    new_quality = 0 if new_quality < 0
+    new_quality = 50 if new_quality > 50
+    super(new_quality)
   end
 end
 
