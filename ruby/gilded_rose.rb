@@ -10,25 +10,25 @@ class ItemDecorator < SimpleDelegator
   end
 
   def update_quality
-    if name == 'Aged Brie' || name == 'Backstage passes to a TAFKAL80ETC concert'
+    if name == 'Aged Brie'
       increase_quality
-      if name == 'Backstage passes to a TAFKAL80ETC concert'
-        if sell_in < 11
-          increase_quality
-        end
-        if sell_in < 6
-          increase_quality
-        end
+      if sell_in < 0
+        increase_quality
+      end
+    elsif name == 'Backstage passes to a TAFKAL80ETC concert'
+      increase_quality
+      if sell_in < 11
+        increase_quality
+      end
+      if sell_in < 6
+        increase_quality
+      end
+      if sell_in < 0
+        self.quality -= quality
       end
     else
       decrease_quality
-    end
-    if sell_in < 0
-      if name == 'Aged Brie'
-        increase_quality
-      elsif name == 'Backstage passes to a TAFKAL80ETC concert'
-        self.quality -= quality
-      else
+      if sell_in < 0
         decrease_quality
       end
     end
