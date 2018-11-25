@@ -26,4 +26,17 @@ describe GildedRose do
     end
   end
 
+  describe "Aged Brie item" do
+    it "item name is \"Aged Brie\"" do
+      items = [Item.new("Aged Brie", 0, 0)]
+      expect(items[0].name).to eq "Aged Brie"
+    end
+
+    it "increases in quality the older it gets" do
+      items = [Item.new("Aged Brie", 1, 0)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 1
+    end
+  end
+
 end
