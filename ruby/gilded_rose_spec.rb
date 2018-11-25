@@ -72,5 +72,13 @@ describe GildedRose do
       expect(items[0].quality).to eq 0
     end
   end
-  
+
+  describe "Conjured item" do
+    it "quality degrees twice as fast" do
+      items = [Item.new("Conjured Mana Cake", 0, 2)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 0
+    end
+  end
+
 end
