@@ -1,18 +1,15 @@
 class ItemDecorator < SimpleDelegator
   def update
+    return if name == 'Sulfuras, Hand of Ragnaros'
     update_sell_in
     update_quality
   end
 
   def update_sell_in
-    return if name == 'Sulfuras, Hand of Ragnaros'
-
     self.sell_in -= 1
   end
 
   def update_quality
-    return if name == 'Sulfuras, Hand of Ragnaros'
-
     if name == 'Aged Brie' || name == 'Backstage passes to a TAFKAL80ETC concert'
       increase_quality
       if name == 'Backstage passes to a TAFKAL80ETC concert'
