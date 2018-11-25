@@ -9,11 +9,7 @@ class ItemDecorator < SimpleDelegator
   end
 
   def update_quality
-    if (name != 'Aged Brie') && (name != 'Backstage passes to a TAFKAL80ETC concert')
-      if name != 'Sulfuras, Hand of Ragnaros'
-        decrease_quality
-      end
-    else
+    if name == 'Aged Brie' || name == 'Backstage passes to a TAFKAL80ETC concert'
       increase_quality
       if name == 'Backstage passes to a TAFKAL80ETC concert'
         if sell_in < 11
@@ -23,18 +19,16 @@ class ItemDecorator < SimpleDelegator
           increase_quality
         end
       end
+    elsif name != 'Sulfuras, Hand of Ragnaros'
+      decrease_quality
     end
     if sell_in < 0
-      if name != 'Aged Brie'
-        if name != 'Backstage passes to a TAFKAL80ETC concert'
-          if name != 'Sulfuras, Hand of Ragnaros'
-            decrease_quality
-          end
-        else
-          self.quality = self.quality - self.quality
-        end
-      else
+      if name == 'Aged Brie'
         increase_quality
+      elsif name == 'Backstage passes to a TAFKAL80ETC concert'
+        self.quality -= quality
+      elsif name != 'Sulfuras, Hand of Ragnaros'
+        decrease_quality
       end
     end
   end
