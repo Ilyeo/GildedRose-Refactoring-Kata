@@ -1,10 +1,19 @@
 class ItemDecorator < SimpleDelegator
   def self.wrap(item)
-    new(item)
+    if item.name == 'Aged Brie'
+      AgedBrie.new(item)
+    elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
+      BackstagePass.new(item)
+    elsif item.name == 'Conjured Mana Cake'
+      ConjuredItem.new(item)
+    elsif item.name == 'Sulfuras, Hand of Ragnaros'
+      LegendaryItem.new(item)
+    else
+      new(item)
+    end
   end
 
   def update
-    return if name == 'Sulfuras, Hand of Ragnaros'
     update_sell_in
     update_quality
   end
@@ -18,32 +27,9 @@ class ItemDecorator < SimpleDelegator
   end
 
   def quality_adjustment
-    if name == 'Aged Brie'
-      adjustment = 1
-      if sell_in < 0
-        adjustment = 2
-      end
-    elsif name == 'Backstage passes to a TAFKAL80ETC concert'
-      adjustment = 1
-      if sell_in < 10
-        adjustment = 2
-      end
-      if sell_in < 5
-        adjustment = 3
-      end
-      if sell_in < 0
-        adjustment = -quality
-      end
-    elsif name == 'Conjured Mana Cake'
+    adjustment = -1
+    if sell_in < 0
       adjustment = -2
-      if sell_in < 0
-        adjustment = -4
-      end
-    else
-      adjustment = -1
-      if sell_in < 0
-        adjustment = -2
-      end
     end
     adjustment
   end
@@ -52,6 +38,48 @@ class ItemDecorator < SimpleDelegator
     new_quality = 0 if new_quality < 0
     new_quality = 50 if new_quality > 50
     super(new_quality)
+  end
+end
+
+class AgedBrie < ItemDecorator
+  def quality_adjustment
+    adjustment = 1
+    if sell_in < 0
+      adjustment = 2
+    end
+    adjustment
+  end
+end
+
+class BackstagePass < ItemDecorator
+  def quality_adjustment
+    adjustment = 1
+    if sell_in < 10
+      adjustment = 2
+    end
+    if sell_in < 5
+      adjustment = 3
+    end
+    if sell_in < 0
+      adjustment = -quality
+    end
+    adjustment
+  end
+end
+
+class ConjuredItem < ItemDecorator
+  def quality_adjustment
+    adjustment = -2
+    if sell_in < 0
+      adjustment = -4
+    end
+    adjustment
+  end
+end
+
+class LegendaryItem < ItemDecorator
+  def update
+    # Legendary items don't change
   end
 end
 
