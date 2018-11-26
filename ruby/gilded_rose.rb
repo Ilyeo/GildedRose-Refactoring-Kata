@@ -28,11 +28,11 @@ class ItemDecorator < SimpleDelegator
   end
 
   def quality_adjustment
-    adjustment = -1
     if sell_in < 0
-      adjustment = -2
+      past_date_adjustment
+    else
+      normal_adjustment
     end
-    adjustment
   end
 
   def quality=(new_quality)
@@ -40,41 +40,41 @@ class ItemDecorator < SimpleDelegator
     new_quality = 50 if new_quality > 50
     super(new_quality)
   end
+
+  def normal_adjustment
+    -1
+  end
+
+  def past_date_adjustment
+    2 * normal_adjustment
+  end
 end
 
 class AgedBrie < ItemDecorator
-  def quality_adjustment
-    adjustment = 1
-    if sell_in < 0
-      adjustment = 2
-    end
-    adjustment
+  def normal_adjustment
+    -super
   end
 end
 
 class BackstagePass < ItemDecorator
-  def quality_adjustment
-    adjustment = 1
-    if sell_in < 10
-      adjustment = 2
-    end
+  def normal_adjustment
     if sell_in < 5
-      adjustment = 3
+      3
+    elsif sell_in < 10
+      2
+    else
+      1
     end
-    if sell_in < 0
-      adjustment = -quality
-    end
-    adjustment
+  end
+
+  def past_date_adjustment
+    -quality
   end
 end
 
 class ConjuredItem < ItemDecorator
-  def quality_adjustment
-    adjustment = -2
-    if sell_in < 0
-      adjustment = -4
-    end
-    adjustment
+  def normal_adjustment
+    2 * super
   end
 end
 
