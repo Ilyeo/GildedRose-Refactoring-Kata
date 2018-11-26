@@ -1,12 +1,13 @@
 class ItemDecorator < SimpleDelegator
   def self.wrap(item)
-    if item.name == 'Aged Brie'
+    case item.name
+    when 'Aged Brie'
       AgedBrie.new(item)
-    elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    when 'Backstage passes to a TAFKAL80ETC concert'
       BackstagePass.new(item)
-    elsif item.name == 'Conjured Mana Cake'
+    when 'Conjured Mana Cake'
       ConjuredItem.new(item)
-    elsif item.name == 'Sulfuras, Hand of Ragnaros'
+    when 'Sulfuras, Hand of Ragnaros'
       LegendaryItem.new(item)
     else
       new(item)
