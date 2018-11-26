@@ -1,4 +1,8 @@
 class ItemDecorator < SimpleDelegator
+  def self.wrap(item)
+    new(item)
+  end
+
   def update
     return if name == 'Sulfuras, Hand of Ragnaros'
     update_sell_in
@@ -58,12 +62,8 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      update(ItemDecorator.new(item))
+      ItemDecorator.wrap(item).update
     end
-  end
-
-  def update(item)
-    item.update
   end
 end
 
